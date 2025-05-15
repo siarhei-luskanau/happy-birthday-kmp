@@ -1,19 +1,15 @@
 package siarhei.luskanau.happy.birthday.app
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.testTag
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.runComposeUiTest
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LifecycleRegistry
 import kotlin.test.Test
 
 @OptIn(ExperimentalTestApi::class)
@@ -22,24 +18,22 @@ class ComposeTest {
     @Test
     fun simpleCheck() = runComposeUiTest {
         setContent {
-            var txt by remember { mutableStateOf("Go") }
-            Column {
-                Text(
-                    text = txt,
-                    modifier = Modifier.testTag("t_text")
-                )
-                Button(
-                    onClick = { txt += "." },
-                    modifier = Modifier.testTag("t_button")
-                ) {
-                    Text("click me")
-                }
+            // workaround "CompositionLocal LocalLifecycleOwner not present"
+            // https://youtrack.jetbrains.com/issue/CMP-7419/CompositionLocal-LocalLifecycleOwner-not-present-on-iosSimulatorArm64Test-task
+            CompositionLocalProvider(
+                LocalLifecycleOwner provides LocalLifecycleOwnerFake()
+            ) {
+                KoinApp()
             }
         }
 
-        onNodeWithTag("t_button").apply {
-            repeat(3) { performClick() }
-        }
-        onNodeWithTag("t_text").assertTextEquals("Go...")
+        onNodeWithTag(testTag = "t_text", useUnmergedTree = true).assertTextEquals("Run")
+        onNodeWithTag(testTag = "t_button").performClick()
+    }
+}
+
+private class LocalLifecycleOwnerFake : LifecycleOwner {
+    override val lifecycle: Lifecycle = LifecycleRegistry(this).apply {
+        currentState = Lifecycle.State.RESUMED
     }
 }

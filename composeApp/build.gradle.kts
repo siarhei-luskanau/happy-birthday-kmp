@@ -49,6 +49,10 @@ kotlin {
             implementation(compose.ui)
             implementation(libs.jetbrains.navigation.compose)
             implementation(project.dependencies.platform(libs.koin.bom))
+            implementation(projects.core.coreCommon)
+            implementation(projects.core.coreNetwork)
+            implementation(projects.navigation)
+            implementation(projects.ui.uiCommon)
         }
 
         commonTest.dependencies {
@@ -76,10 +80,10 @@ kotlin {
 
 android {
     namespace = "siarhei.luskanau.happy.birthday.app"
-    compileSdk = 36
+    compileSdk = libs.versions.build.android.compileSdk.get().toInt()
     defaultConfig {
-        minSdk = 24
-        targetSdk = 36
+        minSdk = libs.versions.build.android.minSdk.get().toInt()
+        targetSdk = libs.versions.build.android.targetSdk.get().toInt()
         applicationId = "siarhei.luskanau.happy.birthday.app.androidApp"
         versionCode = 1
         versionName = "1.0.0"
