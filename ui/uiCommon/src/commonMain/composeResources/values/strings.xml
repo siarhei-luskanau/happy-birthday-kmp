@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Happy Birthday</string>
+    <string name="back_button">Back</string>
+    <string name="run">Run</string>
+    <string name="stop">Stop</string>
+</resources>

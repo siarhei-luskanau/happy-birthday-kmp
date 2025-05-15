@@ -1,5 +1,5 @@
 import androidx.compose.ui.window.ComposeUIViewController
 import platform.UIKit.UIViewController
-import siarhei.luskanau.happy.birthday.app.App
+import siarhei.luskanau.happy.birthday.app.KoinApp
 
-fun mainViewController(): UIViewController = ComposeUIViewController { App() }
+fun mainViewController(): UIViewController = ComposeUIViewController { KoinApp() }

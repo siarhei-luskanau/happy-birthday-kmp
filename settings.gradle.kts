@@ -1,7 +1,11 @@
 rootProject.name = "HappyBirthday"
-
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 include(
-    ":composeApp"
+    ":composeApp",
+    ":core:coreCommon",
+    ":core:coreNetwork",
+    ":navigation",
+    ":ui:uiCommon"
 )
 
 pluginManagement {
