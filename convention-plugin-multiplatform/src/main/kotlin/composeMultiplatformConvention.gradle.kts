@@ -48,6 +48,7 @@ kotlin {
             implementation(libs.findLibrary("jetbrains-lifecycle-viewmodel-compose").get())
             implementation(libs.findLibrary("jetbrains-navigation-compose").get())
             implementation(libs.findLibrary("kotlinx-coroutines-core").get())
+            implementation(libs.findLibrary("kotlinx-datetime").get())
             implementation(project.dependencies.platform(libs.findLibrary("koin-bom").get()))
         }
 

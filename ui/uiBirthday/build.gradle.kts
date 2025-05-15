@@ -8,6 +8,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(projects.ui.uiCommon)
+            implementation(projects.core.coreNetwork)
         }
         androidUnitTest.dependencies {
             implementation(projects.ui.uiScreenshotTest)

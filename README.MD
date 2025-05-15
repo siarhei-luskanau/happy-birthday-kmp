@@ -5,6 +5,15 @@
  - install JDK 17 or higher on your machine
  - add `local.properties` file to the project root and set a path to Android SDK there
 
+## Setup
+
+Add `SERVER_HOST` and `SERVER_PORT` variables to the `local.properties` file:
+
+```properties
+SERVER_HOST=127.0.0.1
+SERVER_PORT=8080
+```
+
 ### Android
 To run the application on android device/emulator:  
  - open project in Android Studio and run imported android run configuration
