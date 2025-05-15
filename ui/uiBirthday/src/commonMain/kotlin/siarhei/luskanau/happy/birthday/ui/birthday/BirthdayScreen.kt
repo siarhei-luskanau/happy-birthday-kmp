@@ -20,6 +20,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -30,6 +31,8 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.isActive
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
@@ -41,7 +44,8 @@ import siarhei.luskanau.happy.birthday.ui.common.resources.ic_swirls_left
 import siarhei.luskanau.happy.birthday.ui.common.resources.ic_swirls_right
 
 @Composable
-fun BirthdayScreen() {
+fun BirthdayScreen(viewModel: BirthdayViewModel) {
+    val viewState by viewModel.viewState.collectAsState(null)
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -50,7 +54,7 @@ fun BirthdayScreen() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = stringResource(Res.string.app_name),
+            text = viewState?.value ?: stringResource(Res.string.app_name),
             modifier = Modifier.testTag("t_text"),
             style = MaterialTheme.typography.displayLarge,
             textAlign = TextAlign.Center
@@ -98,4 +102,12 @@ fun BirthdayScreen() {
 
 @Preview
 @Composable
-internal fun BirthdayScreenFoxPreview() = BirthdayScreen()
+internal fun BirthdayScreenFoxPreview() = BirthdayScreen(
+    viewModel = previewViewModel(
+        viewState = BirthdayViewState(value = null)
+    )
+)
+
+internal fun previewViewModel(viewState: BirthdayViewState): BirthdayViewModel = object : BirthdayViewModel() {
+    override val viewState: StateFlow<BirthdayViewState> = MutableStateFlow(viewState)
+}
