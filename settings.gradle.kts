@@ -5,7 +5,9 @@ include(
     ":core:coreCommon",
     ":core:coreNetwork",
     ":navigation",
-    ":ui:uiCommon"
+    ":ui:uiBirthday",
+    ":ui:uiCommon",
+    ":ui:uiScreenshotTest"
 )
 
 pluginManagement {

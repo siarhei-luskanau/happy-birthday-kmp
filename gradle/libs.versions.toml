@@ -24,6 +24,8 @@ kotlinx-datetime = "0.6.2"
 kotlinx-serialization = "1.8.1"
 ktlint = "1.5.0"
 leakcanary = "2.14"
+robolectric = "4.14.1"
+roborazzi = "1.43.1"
 
 [libraries]
 
@@ -49,6 +51,10 @@ kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 ktlint-cli = { module = "com.pinterest.ktlint:ktlint-cli", version.ref = "ktlint" }
 leakcanary-android = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakcanary" }
+robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
+roborazzi = { module = "io.github.takahirom.roborazzi:roborazzi", version.ref = "roborazzi" }
+roborazzi-compose = { module = "io.github.takahirom.roborazzi:roborazzi-compose", version.ref = "roborazzi" }
+roborazzi-rule = { module = "io.github.takahirom.roborazzi:roborazzi-junit-rule", version.ref = "roborazzi" }
 
 [plugins]
 
@@ -60,3 +66,4 @@ hotReload = { id = "org.jetbrains.compose.hot-reload", version.ref = "hotReload"
 jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "compose" }
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+roborazzi = { id = "io.github.takahirom.roborazzi", version.ref = "roborazzi" }

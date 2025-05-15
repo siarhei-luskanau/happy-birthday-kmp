@@ -27,7 +27,7 @@ class ComposeTest {
             }
         }
 
-        onNodeWithTag(testTag = "t_text", useUnmergedTree = true).assertTextEquals("Run")
+        onNodeWithTag(testTag = "t_text").assertTextEquals("Happy Birthday")
         onNodeWithTag(testTag = "t_button").performClick()
     }
 }
