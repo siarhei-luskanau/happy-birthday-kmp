@@ -52,6 +52,7 @@ kotlin {
             implementation(projects.core.coreCommon)
             implementation(projects.core.coreNetwork)
             implementation(projects.navigation)
+            implementation(projects.ui.uiBirthday)
             implementation(projects.ui.uiCommon)
         }
 

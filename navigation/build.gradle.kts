@@ -1,11 +1,14 @@
 plugins {
     id("composeMultiplatformKspConvention")
     id("testOptionsConvention")
+    alias(libs.plugins.kotlinx.serialization)
 }
 
 kotlin {
     sourceSets {
         commonMain.dependencies {
+            implementation(libs.kotlinx.serialization.json)
+            implementation(projects.ui.uiBirthday)
             implementation(projects.ui.uiCommon)
         }
     }

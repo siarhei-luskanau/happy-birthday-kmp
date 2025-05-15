@@ -157,24 +157,18 @@ tasks.register("ciSdkManagerLicenses") {
     }
 }
 
-tasks.register("devAll") {
+tasks.register("ciPngCheck") {
     group = CI_GRADLE
     val injected = project.objects.newInstance<Injected>()
     doLast {
-        injected.gradlew(
-            "clean",
-            "ktlintFormat"
-        )
-        injected.gradlew(
-            "ciLint",
-            "ciUnitTest",
-            "ciAndroid",
-            "ciDesktop"
-        )
-        injected.gradlew("ciIos")
-        injected.gradlew("ciBrowser")
-        injected.gradlew("ciSdkManagerLicenses")
-        injected.gradlew("ciAndroidEmulator")
+        if (Os.isFamily(Os.FAMILY_MAC)) {
+            injected.runExec(listOf("brew", "install", "pngcheck"))
+        } else if (Os.isFamily(Os.FAMILY_UNIX)) {
+            injected.runExec(listOf("sudo", "apt", "install", "pngcheck"))
+        }
+        File(injected.projectLayout.projectDirectory.asFile, "screenshots").listFiles().orEmpty()
+            .filter { it.name.endsWith(".png", ignoreCase = true) }
+            .forEach { injected.runExec(listOf("pngcheck", "-q", it.path)) }
     }
 }
 

@@ -65,6 +65,10 @@ kotlin {
             implementation(libs.findLibrary("androidx-test-core-ktx").get())
             implementation(libs.findLibrary("androidx-uitest-junit4").get())
             implementation(libs.findLibrary("androidx-uitest-testManifest").get())
+            implementation(libs.findLibrary("robolectric").get())
+            implementation(libs.findLibrary("roborazzi").get())
+            implementation(libs.findLibrary("roborazzi-compose").get())
+            implementation(libs.findLibrary("roborazzi-rule").get())
         }
 
         androidInstrumentedTest.dependencies {
