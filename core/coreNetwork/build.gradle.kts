@@ -13,6 +13,7 @@ kotlin {
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.ktor.client.websockets)
             implementation(project.dependencies.platform(libs.ktor.bom))
+            implementation(projects.core.coreCommon)
         }
         jvmMain.dependencies {
             implementation(libs.ktor.client.cio)

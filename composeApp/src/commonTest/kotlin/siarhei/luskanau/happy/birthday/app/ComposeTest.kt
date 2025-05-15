@@ -5,7 +5,6 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.onNodeWithTag
-import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.runComposeUiTest
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
@@ -28,7 +27,6 @@ class ComposeTest {
         }
 
         onNodeWithTag(testTag = "t_text").assertTextEquals("Happy Birthday")
-        onNodeWithTag(testTag = "t_button").performClick()
     }
 }
 

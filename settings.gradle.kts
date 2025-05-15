@@ -4,6 +4,7 @@ include(
     ":composeApp",
     ":core:coreCommon",
     ":core:coreNetwork",
+    ":domain:domainBirthday",
     ":navigation",
     ":ui:uiBirthday",
     ":ui:uiCommon",
