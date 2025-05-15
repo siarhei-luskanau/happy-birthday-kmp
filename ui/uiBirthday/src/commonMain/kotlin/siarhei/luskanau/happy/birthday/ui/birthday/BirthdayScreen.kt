@@ -1,8 +1,5 @@
 package siarhei.luskanau.happy.birthday.ui.birthday
 
-import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -11,37 +8,30 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ElevatedButton
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.isActive
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import siarhei.luskanau.happy.birthday.core.common.model.Anniversary
+import siarhei.luskanau.happy.birthday.core.common.model.BirthdayDescription
+import siarhei.luskanau.happy.birthday.core.common.model.BirthdayNumbers
+import siarhei.luskanau.happy.birthday.core.common.model.BirthdayTheme
 import siarhei.luskanau.happy.birthday.ui.common.resources.Res
 import siarhei.luskanau.happy.birthday.ui.common.resources.app_name
-import siarhei.luskanau.happy.birthday.ui.common.resources.ic_profile_default
-import siarhei.luskanau.happy.birthday.ui.common.resources.ic_swirls_left
-import siarhei.luskanau.happy.birthday.ui.common.resources.ic_swirls_right
+import siarhei.luskanau.happy.birthday.ui.common.resources.ic_nanit
 
 @Composable
 fun BirthdayScreen(viewModel: BirthdayViewModel) {
@@ -54,48 +44,22 @@ fun BirthdayScreen(viewModel: BirthdayViewModel) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = viewState?.value ?: stringResource(Res.string.app_name),
+            text = viewState?.let {
+                buildString {
+                    appendLine(it.name)
+                    appendLine(it.anniversary.numbers)
+                    appendLine(it.anniversary.description)
+                    appendLine(it.theme)
+                }
+            } ?: stringResource(Res.string.app_name),
             modifier = Modifier.testTag("t_text"),
-            style = MaterialTheme.typography.displayLarge,
+            style = MaterialTheme.typography.bodyLarge,
             textAlign = TextAlign.Center
         )
-
-        var isRotating by remember { mutableStateOf(false) }
-
-        val rotate = remember { Animatable(0f) }
-        val target = 360f
-        if (isRotating) {
-            LaunchedEffect(Unit) {
-                while (isActive) {
-                    val remaining = (target - rotate.value) / target
-                    rotate.animateTo(target, animationSpec = tween((1_000 * remaining).toInt(), easing = LinearEasing))
-                    rotate.snapTo(0f)
-                }
-            }
-        }
-
+        Spacer(Modifier.size(ButtonDefaults.IconSpacing))
         Image(
-            modifier = Modifier
-                .size(250.dp)
-                .padding(16.dp)
-                .run { rotate(rotate.value) },
-            imageVector = vectorResource(Res.drawable.ic_profile_default),
+            imageVector = vectorResource(Res.drawable.ic_nanit),
             contentDescription = null
-        )
-
-        ElevatedButton(
-            modifier = Modifier
-                .padding(horizontal = 8.dp, vertical = 4.dp)
-                .widthIn(min = 200.dp)
-                .testTag("t_button"),
-            onClick = { isRotating = !isRotating },
-            content = {
-                Icon(
-                    vectorResource(if (isRotating) Res.drawable.ic_swirls_left else Res.drawable.ic_swirls_right),
-                    contentDescription = null
-                )
-                Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-            }
         )
     }
 }
@@ -104,7 +68,15 @@ fun BirthdayScreen(viewModel: BirthdayViewModel) {
 @Composable
 internal fun BirthdayScreenFoxPreview() = BirthdayScreen(
     viewModel = previewViewModel(
-        viewState = BirthdayViewState(value = null)
+        viewState = BirthdayViewState(
+            name = "title",
+            anniversary = Anniversary(
+                numbers = listOf(BirthdayNumbers.NUMBER_11),
+                description = BirthdayDescription.MONTHS
+
+            ),
+            theme = BirthdayTheme.FOX
+        )
     )
 )
 

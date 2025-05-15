@@ -7,8 +7,10 @@ plugins {
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation(projects.ui.uiCommon)
+            implementation(projects.core.coreCommon)
             implementation(projects.core.coreNetwork)
+            implementation(projects.domain.domainBirthday)
+            implementation(projects.ui.uiCommon)
         }
         androidUnitTest.dependencies {
             implementation(projects.ui.uiScreenshotTest)
