@@ -2,6 +2,7 @@ package siarhei.luskanau.happy.birthday.ui.birthday
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -21,6 +22,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -31,6 +35,8 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.flow.MutableStateFlow
+import network.chaintech.cmpimagepickncrop.CMPImagePickNCropDialog
+import network.chaintech.cmpimagepickncrop.imagecropper.rememberImageCropper
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
@@ -74,11 +80,23 @@ import siarhei.luskanau.happy.birthday.ui.common.resources.years_old
 @Composable
 fun BirthdayScreen(viewModel: BirthdayViewModel) {
     val viewState by viewModel.viewState.collectAsState(null)
+    val imageCropper = rememberImageCropper()
+    var openImagePicker by remember { mutableStateOf(value = false) }
     Box(
         modifier = Modifier
             .fillMaxSize()
             .windowInsetsPadding(WindowInsets.safeDrawing)
     ) {
+        CMPImagePickNCropDialog(
+            imageCropper = imageCropper,
+            openImagePicker = openImagePicker,
+            autoZoom = true,
+            imagePickerDialogHandler = { openImagePicker = it },
+            selectedImageCallback = {
+                viewModel.updateSelectedImage(it)
+            }
+        )
+
         Spacer(
             modifier = Modifier.fillMaxSize().background(
                 color = Color(
@@ -158,7 +176,9 @@ fun BirthdayScreen(viewModel: BirthdayViewModel) {
                 )
                 Spacer(Modifier.size(15.dp).weight(1f))
                 Box(
-                    modifier = Modifier.size(200.dp),
+                    modifier = Modifier
+                        .size(200.dp)
+                        .clickable { openImagePicker = !openImagePicker },
                     contentAlignment = Alignment.Center
                 ) {
                     Image(
@@ -303,4 +323,5 @@ internal fun BirthdayScreenPelicanWithPhotoPreview(imageBitmap: ImageBitmap) = B
 
 internal fun previewViewModel(viewState: BirthdayViewState?): BirthdayViewModel = object : BirthdayViewModel() {
     override val viewState = MutableStateFlow(viewState)
+    override fun updateSelectedImage(selectedImage: ImageBitmap) = Unit
 }

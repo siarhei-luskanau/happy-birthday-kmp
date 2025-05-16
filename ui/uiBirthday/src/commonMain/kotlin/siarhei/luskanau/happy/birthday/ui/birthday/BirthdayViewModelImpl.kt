@@ -1,10 +1,13 @@
 package siarhei.luskanau.happy.birthday.ui.birthday
 
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import org.koin.core.annotation.Factory
 import org.koin.core.annotation.Provided
@@ -17,9 +20,11 @@ internal class BirthdayViewModelImpl(
     @Provided private val birthdayDomainService: BirthdayDomainService
 ) : BirthdayViewModel() {
 
+    private val selectedImageFlow = MutableStateFlow<ImageBitmap?>(null)
+
     override val viewState: StateFlow<BirthdayViewState?> =
         serverApiService.openWebSocket()
-            .map { anniversaryData ->
+            .combine(selectedImageFlow) { anniversaryData, imageBitmap ->
                 anniversaryData?.let {
                     BirthdayViewState(
                         name = it.name,
@@ -28,7 +33,7 @@ internal class BirthdayViewModelImpl(
                             today = Clock.System.now().toEpochMilliseconds()
                         ),
                         theme = it.theme,
-                        imageBitmap = null
+                        imageBitmap = imageBitmap
                     )
                 }
             }
@@ -37,4 +42,10 @@ internal class BirthdayViewModelImpl(
                 started = SharingStarted.WhileSubscribed(5000),
                 initialValue = null
             )
+
+    override fun updateSelectedImage(selectedImage: ImageBitmap) {
+        viewModelScope.launch {
+            selectedImageFlow.emit(selectedImage)
+        }
+    }
 }
