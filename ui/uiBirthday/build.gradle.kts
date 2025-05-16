@@ -7,6 +7,7 @@ plugins {
 kotlin {
     sourceSets {
         commonMain.dependencies {
+            implementation(libs.cmp.image.pick)
             implementation(projects.core.coreCommon)
             implementation(projects.core.coreNetwork)
             implementation(projects.domain.domainBirthday)

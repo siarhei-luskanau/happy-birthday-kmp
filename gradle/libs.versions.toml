@@ -3,7 +3,7 @@
 agp = "8.10.0"
 androidx-activity = "1.10.1"
 androidx-test-core = "1.6.1"
-androidx-test-runner = "1.6.2"
+androidx-test-runner = "+"
 androidx-uiTest = "1.8.1"
 build-android-compileSdk = "36"
 build-android-minSdk = "24"
@@ -11,6 +11,7 @@ build-android-targetSdk = "36"
 build-javaVersion = "VERSION_21"
 build-jvmTarget = "21"
 buildConfig = "5.6.5"
+cmp-image-pick = "1.0.9"
 compose = "1.8.0"
 google-ksp = "2.1.21-2.0.1"
 hotReload = "1.0.0-alpha10"
@@ -36,6 +37,7 @@ androidx-test-core-ktx = { module = "androidx.test:core-ktx", version.ref = "and
 androidx-test-runner = { module = "androidx.test:runner", version.ref = "androidx-test-runner" }
 androidx-uitest-junit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "androidx-uiTest" }
 androidx-uitest-testManifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "androidx-uiTest" }
+cmp-image-pick = { module = "network.chaintech:cmp-image-pick-n-crop", version.ref = "cmp-image-pick" }
 google-ksp-plugin = { module = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin", version.ref = "google-ksp" }
 jetbrains-compose-compiler-plugin = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
 jetbrains-compose-plugin = { module = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "compose" }
