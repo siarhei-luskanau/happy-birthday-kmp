@@ -3,7 +3,7 @@ package siarhei.luskanau.happy.birthday.app
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.test.ExperimentalTestApi
-import androidx.compose.ui.test.assertTextEquals
+import androidx.compose.ui.test.assertContentDescriptionEquals
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.runComposeUiTest
 import androidx.lifecycle.Lifecycle
@@ -26,7 +26,9 @@ class ComposeTest {
             }
         }
 
-        onNodeWithTag(testTag = "t_text").assertTextEquals("Happy Birthday")
+        onNodeWithTag(testTag = "t_nanit")
+            .assertExists()
+            .assertContentDescriptionEquals("Nanit Logo")
     }
 }
 

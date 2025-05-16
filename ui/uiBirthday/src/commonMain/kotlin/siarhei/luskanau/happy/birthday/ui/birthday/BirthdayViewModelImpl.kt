@@ -27,7 +27,8 @@ internal class BirthdayViewModelImpl(
                             birthday = it.dob,
                             today = Clock.System.now().toEpochMilliseconds()
                         ),
-                        theme = it.theme
+                        theme = it.theme,
+                        imageBitmap = null
                     )
                 }
             }
