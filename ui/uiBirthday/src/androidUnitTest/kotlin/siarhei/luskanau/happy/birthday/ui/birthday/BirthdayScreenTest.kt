@@ -1,5 +1,8 @@
 package siarhei.luskanau.happy.birthday.ui.birthday
 
+import android.graphics.BitmapFactory
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onRoot
 import com.github.takahirom.roborazzi.RobolectricDeviceQualifiers
@@ -28,8 +31,34 @@ class BirthdayScreenTest : BaseScreenshotTest(group = "birthday") {
 
     @Test
     fun dumpTest() {
-        composeRule.setContent { AppTheme { BirthdayScreenFoxPreview() } }
+        composeRule.setContent { AppTheme { BirthdayScreenPelicanWithPhotoPreview(imageBitmap()) } }
         composeRule.onRoot().captureScreenshotDump(name = "dump")
+    }
+
+    @Test
+    fun lightEmptyTest() {
+        composeRule.setContent { AppTheme { BirthdayScreenEmptyPreview() } }
+        composeRule.onRoot().captureScreenshot(name = "empty_light")
+    }
+
+    @Test
+    @Config(qualifiers = "+night")
+    fun nightEmptyTest() {
+        composeRule.setContent { AppTheme { BirthdayScreenEmptyPreview() } }
+        composeRule.onRoot().captureScreenshot(name = "empty_night")
+    }
+
+    @Test
+    fun lightElephantTest() {
+        composeRule.setContent { AppTheme { BirthdayScreenElephantPreview() } }
+        composeRule.onRoot().captureScreenshot(name = "elephant_light")
+    }
+
+    @Test
+    @Config(qualifiers = "+night")
+    fun nightElephantTest() {
+        composeRule.setContent { AppTheme { BirthdayScreenElephantPreview() } }
+        composeRule.onRoot().captureScreenshot(name = "elephant_night")
     }
 
     @Test
@@ -44,4 +73,35 @@ class BirthdayScreenTest : BaseScreenshotTest(group = "birthday") {
         composeRule.setContent { AppTheme { BirthdayScreenFoxPreview() } }
         composeRule.onRoot().captureScreenshot(name = "fox_night")
     }
+
+    @Test
+    fun lightPelicanTest() {
+        composeRule.setContent { AppTheme { BirthdayScreenPelicanPreview() } }
+        composeRule.onRoot().captureScreenshot(name = "pelican_light")
+    }
+
+    @Test
+    @Config(qualifiers = "+night")
+    fun nightPelicanTest() {
+        composeRule.setContent { AppTheme { BirthdayScreenPelicanPreview() } }
+        composeRule.onRoot().captureScreenshot(name = "pelican_night")
+    }
+
+    @Test
+    fun lightPhotoTest() {
+        composeRule.setContent { AppTheme { BirthdayScreenPelicanWithPhotoPreview(imageBitmap()) } }
+        composeRule.onRoot().captureScreenshot(name = "photo_light")
+    }
+
+    @Test
+    @Config(qualifiers = "+night")
+    fun nightPhotoTest() {
+        composeRule.setContent { AppTheme { BirthdayScreenPelicanWithPhotoPreview(imageBitmap()) } }
+        composeRule.onRoot().captureScreenshot(name = "photo_night")
+    }
+
+    private fun imageBitmap(): ImageBitmap =
+        requireNotNull(javaClass.getResourceAsStream("/lily_face.png")).readAllBytes().let { bytes ->
+            BitmapFactory.decodeByteArray(bytes, 0, bytes.size).asImageBitmap()
+        }
 }
