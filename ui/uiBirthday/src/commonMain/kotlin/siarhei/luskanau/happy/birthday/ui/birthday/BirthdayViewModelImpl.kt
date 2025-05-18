@@ -11,6 +11,7 @@ import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import org.koin.core.annotation.Factory
 import org.koin.core.annotation.Provided
+import siarhei.luskanau.happy.birthday.core.network.AnniversaryData
 import siarhei.luskanau.happy.birthday.core.network.ServerApiService
 import siarhei.luskanau.happy.birthday.domain.birthday.BirthdayDomainService
 
@@ -21,27 +22,45 @@ internal class BirthdayViewModelImpl(
 ) : BirthdayViewModel() {
 
     private val selectedImageFlow = MutableStateFlow<ImageBitmap?>(null)
+    private val anniversaryDataFlow = MutableStateFlow<AnniversaryData?>(null)
 
     override val viewState: StateFlow<BirthdayViewState?> =
-        serverApiService.openWebSocket()
-            .combine(selectedImageFlow) { anniversaryData, imageBitmap ->
-                anniversaryData?.let {
-                    BirthdayViewState(
-                        name = it.name,
-                        anniversary = birthdayDomainService.calculateAnniversary(
-                            birthday = it.dob,
-                            today = Clock.System.now().toEpochMilliseconds()
-                        ),
-                        theme = it.theme,
-                        imageBitmap = imageBitmap
+        selectedImageFlow.combine(anniversaryDataFlow) { imageBitmap, anniversaryData ->
+            val anniversary = anniversaryData?.let {
+                try {
+                    birthdayDomainService.calculateAnniversary(
+                        birthday = it.dob,
+                        today = Clock.System.now().toEpochMilliseconds()
                     )
+                } catch (error: Throwable) {
+                    error.printStackTrace()
+                    null
                 }
             }
+            anniversary?.let {
+                BirthdayViewState(
+                    name = anniversaryData.name,
+                    anniversary = anniversary,
+                    theme = anniversaryData.theme,
+                    imageBitmap = imageBitmap
+                )
+            }
+        }
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5000),
                 initialValue = null
             )
+
+    init {
+        viewModelScope.launch {
+            serverApiService.listenAnniversaryData {
+                viewModelScope.launch {
+                    anniversaryDataFlow.emit(it)
+                }
+            }
+        }
+    }
 
     override fun updateSelectedImage(selectedImage: ImageBitmap) {
         viewModelScope.launch {

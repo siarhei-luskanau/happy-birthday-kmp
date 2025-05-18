@@ -10,8 +10,8 @@ import io.ktor.websocket.Frame
 import io.ktor.websocket.close
 import io.ktor.websocket.readText
 import kotlin.coroutines.cancellation.CancellationException
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import kotlin.time.Duration.Companion.seconds
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.serialization.json.Json
 import org.koin.core.annotation.Single
@@ -33,26 +33,33 @@ internal class ServerApiClient {
         }
     }
 
-    fun openWebSocket(): Flow<AnniversaryDto?> = flow {
-        try {
-            httpClient.webSocket(
-                method = HttpMethod.Get,
-                host = SERVER_HOST,
-                port = SERVER_PORT,
-                path = "/nanit"
-            ) {
-                while (isActive) {
-                    val textFrame = incoming.receive() as? Frame.Text
-                    val jsonText = textFrame?.readText()
-                    val anniversaryDto = jsonText?.let { json.decodeFromString<AnniversaryDto>(it) }
-                    emit(anniversaryDto)
+    suspend fun listenAnniversaryData(callback: (AnniversaryDto?) -> Unit) {
+        while (true) {
+            try {
+                println("Connecting WebSocket")
+                httpClient.webSocket(
+                    method = HttpMethod.Get,
+                    host = SERVER_HOST,
+                    port = SERVER_PORT,
+                    path = "/nanit"
+                ) {
+                    println("Listen incoming messages from WebSocket")
+                    while (isActive) {
+                        val textFrame = incoming.receive() as? Frame.Text
+                        val jsonText = textFrame?.readText()
+                        println("Message received: $jsonText")
+                        val anniversaryDto = jsonText?.let { json.decodeFromString<AnniversaryDto>(it) }
+                        callback.invoke(anniversaryDto)
+                    }
+                    close()
                 }
-                this@webSocket.close()
+            } catch (e: CancellationException) {
+                throw e // cancellation exception is rethrown
+            } catch (error: Throwable) {
+                callback.invoke(null)
             }
-        } catch (e: CancellationException) {
-            throw e // cancellation exception is rethrown
-        } catch (error: Throwable) {
-            emit(null)
+            println("delay 3 seconds")
+            delay(3.seconds)
         }
     }
 }
