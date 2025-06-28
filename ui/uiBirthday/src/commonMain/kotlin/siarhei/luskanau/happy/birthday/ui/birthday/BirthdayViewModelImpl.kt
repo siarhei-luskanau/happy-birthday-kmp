@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
+import network.chaintech.cmpimagepickncrop.utils.SharedImage
 import org.koin.core.annotation.Factory
 import org.koin.core.annotation.Provided
 import siarhei.luskanau.happy.birthday.core.network.AnniversaryData
@@ -65,6 +66,12 @@ internal class BirthdayViewModelImpl(
     override fun updateSelectedImage(selectedImage: ImageBitmap) {
         viewModelScope.launch {
             selectedImageFlow.emit(selectedImage)
+        }
+    }
+
+    override fun updateSelectedImageFile(sharedImage: SharedImage) {
+        viewModelScope.launch {
+            selectedImageFlow.emit(sharedImage.toImageBitmap())
         }
     }
 }

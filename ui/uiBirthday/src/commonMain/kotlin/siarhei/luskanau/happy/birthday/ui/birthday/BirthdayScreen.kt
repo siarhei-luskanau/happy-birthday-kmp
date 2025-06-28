@@ -37,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.flow.MutableStateFlow
 import network.chaintech.cmpimagepickncrop.CMPImagePickNCropDialog
 import network.chaintech.cmpimagepickncrop.imagecropper.rememberImageCropper
+import network.chaintech.cmpimagepickncrop.utils.SharedImage
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
@@ -92,9 +93,8 @@ fun BirthdayScreen(viewModel: BirthdayViewModel) {
             openImagePicker = openImagePicker,
             autoZoom = true,
             imagePickerDialogHandler = { openImagePicker = it },
-            selectedImageCallback = {
-                viewModel.updateSelectedImage(it)
-            }
+            selectedImageCallback = { viewModel.updateSelectedImage(it) },
+            selectedImageFileCallback = { viewModel.updateSelectedImageFile(it) }
         )
 
         Spacer(
@@ -324,4 +324,5 @@ internal fun BirthdayScreenPelicanWithPhotoPreview(imageBitmap: ImageBitmap) = B
 internal fun previewViewModel(viewState: BirthdayViewState?): BirthdayViewModel = object : BirthdayViewModel() {
     override val viewState = MutableStateFlow(viewState)
     override fun updateSelectedImage(selectedImage: ImageBitmap) = Unit
+    override fun updateSelectedImageFile(sharedImage: SharedImage) = Unit
 }
