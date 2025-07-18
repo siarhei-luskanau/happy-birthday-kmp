@@ -31,72 +31,72 @@ class BirthdayScreenTest : BaseScreenshotTest(group = "birthday") {
 
     @Test
     fun dumpTest() {
-        composeRule.setContent { AppTheme { BirthdayScreenPelicanWithPhotoPreview(imageBitmap()) } }
+        composeRule.setContent { AppTheme { BirthdayContentPelicanWithPhotoPreview(imageBitmap()) } }
         composeRule.onRoot().captureScreenshotDump(name = "dump")
     }
 
     @Test
     fun lightEmptyTest() {
-        composeRule.setContent { AppTheme { BirthdayScreenEmptyPreview() } }
+        composeRule.setContent { AppTheme { BirthdayContentEmptyPreview() } }
         composeRule.onRoot().captureScreenshot(name = "empty_light")
     }
 
     @Test
     @Config(qualifiers = "+night")
     fun nightEmptyTest() {
-        composeRule.setContent { AppTheme { BirthdayScreenEmptyPreview() } }
+        composeRule.setContent { AppTheme { BirthdayContentEmptyPreview() } }
         composeRule.onRoot().captureScreenshot(name = "empty_night")
     }
 
     @Test
     fun lightElephantTest() {
-        composeRule.setContent { AppTheme { BirthdayScreenElephantPreview() } }
+        composeRule.setContent { AppTheme { BirthdayContentElephantPreview() } }
         composeRule.onRoot().captureScreenshot(name = "elephant_light")
     }
 
     @Test
     @Config(qualifiers = "+night")
     fun nightElephantTest() {
-        composeRule.setContent { AppTheme { BirthdayScreenElephantPreview() } }
+        composeRule.setContent { AppTheme { BirthdayContentElephantPreview() } }
         composeRule.onRoot().captureScreenshot(name = "elephant_night")
     }
 
     @Test
     fun lightFoxTest() {
-        composeRule.setContent { AppTheme { BirthdayScreenFoxPreview() } }
+        composeRule.setContent { AppTheme { BirthdayContentFoxPreview() } }
         composeRule.onRoot().captureScreenshot(name = "fox_light")
     }
 
     @Test
     @Config(qualifiers = "+night")
     fun nightFoxTest() {
-        composeRule.setContent { AppTheme { BirthdayScreenFoxPreview() } }
+        composeRule.setContent { AppTheme { BirthdayContentFoxPreview() } }
         composeRule.onRoot().captureScreenshot(name = "fox_night")
     }
 
     @Test
     fun lightPelicanTest() {
-        composeRule.setContent { AppTheme { BirthdayScreenPelicanPreview() } }
+        composeRule.setContent { AppTheme { BirthdayContentPelicanPreview() } }
         composeRule.onRoot().captureScreenshot(name = "pelican_light")
     }
 
     @Test
     @Config(qualifiers = "+night")
     fun nightPelicanTest() {
-        composeRule.setContent { AppTheme { BirthdayScreenPelicanPreview() } }
+        composeRule.setContent { AppTheme { BirthdayContentPelicanPreview() } }
         composeRule.onRoot().captureScreenshot(name = "pelican_night")
     }
 
     @Test
     fun lightPhotoTest() {
-        composeRule.setContent { AppTheme { BirthdayScreenPelicanWithPhotoPreview(imageBitmap()) } }
+        composeRule.setContent { AppTheme { BirthdayContentPelicanWithPhotoPreview(imageBitmap()) } }
         composeRule.onRoot().captureScreenshot(name = "photo_light")
     }
 
     @Test
     @Config(qualifiers = "+night")
     fun nightPhotoTest() {
-        composeRule.setContent { AppTheme { BirthdayScreenPelicanWithPhotoPreview(imageBitmap()) } }
+        composeRule.setContent { AppTheme { BirthdayContentPelicanWithPhotoPreview(imageBitmap()) } }
         composeRule.onRoot().captureScreenshot(name = "photo_night")
     }
 

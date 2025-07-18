@@ -1,7 +1,6 @@
 package siarhei.luskanau.happy.birthday.app
 
 import androidx.compose.runtime.Composable
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -23,9 +22,7 @@ fun NavigationApp() = AppTheme {
         startDestination = AppRoutes.Birthday
     ) {
         composable<AppRoutes.Birthday> {
-            BirthdayScreen(
-                viewModel = viewModel { koin.get { parametersOf(navigationCallbacks) } }
-            )
+            BirthdayScreen { koin.get { parametersOf(navigationCallbacks) } }
         }
     }
 }
