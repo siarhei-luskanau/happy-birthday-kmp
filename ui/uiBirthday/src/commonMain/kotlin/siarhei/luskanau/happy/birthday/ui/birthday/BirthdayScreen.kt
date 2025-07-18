@@ -34,10 +34,11 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.flow.MutableStateFlow
+import androidx.lifecycle.viewmodel.compose.viewModel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 import network.chaintech.cmpimagepickncrop.CMPImagePickNCropDialog
 import network.chaintech.cmpimagepickncrop.imagecropper.rememberImageCropper
-import network.chaintech.cmpimagepickncrop.utils.SharedImage
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
@@ -79,8 +80,17 @@ import siarhei.luskanau.happy.birthday.ui.common.resources.year_old
 import siarhei.luskanau.happy.birthday.ui.common.resources.years_old
 
 @Composable
-fun BirthdayScreen(viewModel: BirthdayViewModel) {
-    val viewState by viewModel.viewState.collectAsState(null)
+fun BirthdayScreen(viewModelProvider: () -> BirthdayViewModel) {
+    val viewModel = viewModel { viewModelProvider() }
+    BirthdayContent(
+        viewStateFlow = viewModel.viewState,
+        onEvent = viewModel::onEvent
+    )
+}
+
+@Composable
+internal fun BirthdayContent(viewStateFlow: Flow<BirthdayViewState?>, onEvent: (BirthdayViewEvent) -> Unit) {
+    val viewState by viewStateFlow.collectAsState(null)
     val imageCropper = rememberImageCropper()
     var openImagePicker by remember { mutableStateOf(value = false) }
     Box(
@@ -93,8 +103,8 @@ fun BirthdayScreen(viewModel: BirthdayViewModel) {
             openImagePicker = openImagePicker,
             autoZoom = true,
             imagePickerDialogHandler = { openImagePicker = it },
-            selectedImageCallback = { viewModel.updateSelectedImage(it) },
-            selectedImageFileCallback = { viewModel.updateSelectedImageFile(it) }
+            selectedImageCallback = { onEvent(BirthdayViewEvent.SelectedImage(image = it)) },
+            selectedImageFileCallback = { onEvent(BirthdayViewEvent.SelectedImageFile(sharedImage = it)) }
         )
 
         Spacer(
@@ -249,15 +259,16 @@ fun BirthdayScreen(viewModel: BirthdayViewModel) {
 
 @Preview
 @Composable
-internal fun BirthdayScreenEmptyPreview() = BirthdayScreen(
-    viewModel = previewViewModel(viewState = null)
+internal fun BirthdayContentEmptyPreview() = BirthdayContent(
+    viewStateFlow = flowOf(null),
+    onEvent = {}
 )
 
 @Preview
 @Composable
-internal fun BirthdayScreenElephantPreview() = BirthdayScreen(
-    viewModel = previewViewModel(
-        viewState = BirthdayViewState(
+internal fun BirthdayContentElephantPreview() = BirthdayContent(
+    viewStateFlow = flowOf(
+        BirthdayViewState(
             name = "Cristiano Ronaldo",
             anniversary = Anniversary(
                 numbers = listOf(BirthdayNumbers.NUMBER_1),
@@ -267,14 +278,15 @@ internal fun BirthdayScreenElephantPreview() = BirthdayScreen(
             theme = BirthdayTheme.ELEPHANT,
             imageBitmap = null
         )
-    )
+    ),
+    onEvent = {}
 )
 
 @Preview
 @Composable
-internal fun BirthdayScreenFoxPreview() = BirthdayScreen(
-    viewModel = previewViewModel(
-        viewState = BirthdayViewState(
+internal fun BirthdayContentFoxPreview() = BirthdayContent(
+    viewStateFlow = flowOf(
+        BirthdayViewState(
             name = "Cristiano Ronaldo",
             anniversary = Anniversary(
                 numbers = listOf(BirthdayNumbers.NUMBER_2),
@@ -284,14 +296,15 @@ internal fun BirthdayScreenFoxPreview() = BirthdayScreen(
             theme = BirthdayTheme.FOX,
             imageBitmap = null
         )
-    )
+    ),
+    onEvent = {}
 )
 
 @Preview
 @Composable
-internal fun BirthdayScreenPelicanPreview() = BirthdayScreen(
-    viewModel = previewViewModel(
-        viewState = BirthdayViewState(
+internal fun BirthdayContentPelicanPreview() = BirthdayContent(
+    viewStateFlow = flowOf(
+        BirthdayViewState(
             name = "Cristiano Ronaldo",
             anniversary = Anniversary(
                 numbers = listOf(BirthdayNumbers.NUMBER_1),
@@ -301,14 +314,15 @@ internal fun BirthdayScreenPelicanPreview() = BirthdayScreen(
             theme = BirthdayTheme.PELICAN,
             imageBitmap = null
         )
-    )
+    ),
+    onEvent = {}
 )
 
 @Preview
 @Composable
-internal fun BirthdayScreenPelicanWithPhotoPreview(imageBitmap: ImageBitmap) = BirthdayScreen(
-    viewModel = previewViewModel(
-        viewState = BirthdayViewState(
+internal fun BirthdayContentPelicanWithPhotoPreview(imageBitmap: ImageBitmap) = BirthdayContent(
+    viewStateFlow = flowOf(
+        BirthdayViewState(
             name = "Cristiano Ronaldo",
             anniversary = Anniversary(
                 numbers = listOf(BirthdayNumbers.NUMBER_2),
@@ -318,11 +332,6 @@ internal fun BirthdayScreenPelicanWithPhotoPreview(imageBitmap: ImageBitmap) = B
             theme = BirthdayTheme.PELICAN,
             imageBitmap = imageBitmap
         )
-    )
+    ),
+    onEvent = {}
 )
-
-internal fun previewViewModel(viewState: BirthdayViewState?): BirthdayViewModel = object : BirthdayViewModel() {
-    override val viewState = MutableStateFlow(viewState)
-    override fun updateSelectedImage(selectedImage: ImageBitmap) = Unit
-    override fun updateSelectedImageFile(sharedImage: SharedImage) = Unit
-}
