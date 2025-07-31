@@ -68,7 +68,6 @@ kotlin {
         androidInstrumentedTest.dependencies {
             implementation(kotlin("test"))
             implementation(libs.androidx.test.core.ktx)
-            implementation(libs.androidx.test.runner)
         }
 
         jvmMain.dependencies {

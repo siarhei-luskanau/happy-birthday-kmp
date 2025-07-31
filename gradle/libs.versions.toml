@@ -1,9 +1,8 @@
 [versions]
 
-agp = "8.11.1"
+agp = "8.12.0"
 androidx-activity = "1.10.1"
-androidx-test-core = "1.6.1"
-androidx-test-runner = "+"
+androidx-test-core = "1.7.0"
 androidx-uiTest = "1.8.3"
 build-android-compileSdk = "36"
 build-android-minSdk = "30"
@@ -24,7 +23,7 @@ kotlinx-coroutines = "1.10.2"
 kotlinx-datetime = "0.7.1-0.6.x-compat"
 kotlinx-serialization = "1.9.0"
 ktlint = "1.7.1"
-ktor-bom = "3.2.2"
+ktor-bom = "3.2.3"
 leakcanary = "2.14"
 robolectric = "4.15.1"
 roborazzi = "1.46.1"
@@ -34,7 +33,6 @@ roborazzi = "1.46.1"
 android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity" }
 androidx-test-core-ktx = { module = "androidx.test:core-ktx", version.ref = "androidx-test-core" }
-androidx-test-runner = { module = "androidx.test:runner", version.ref = "androidx-test-runner" }
 androidx-uitest-junit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "androidx-uiTest" }
 androidx-uitest-testManifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "androidx-uiTest" }
 cmp-image-pick = { module = "network.chaintech:cmp-image-pick-n-crop", version.ref = "cmp-image-pick" }
