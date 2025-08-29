@@ -25,7 +25,7 @@ kotlinx-serialization = "1.9.0"
 ktlint = "1.7.1"
 ktor-bom = "3.2.3"
 leakcanary = "2.14"
-robolectric = "4.15.1"
+robolectric = "4.16"
 roborazzi = "1.50.0"
 
 [libraries]
