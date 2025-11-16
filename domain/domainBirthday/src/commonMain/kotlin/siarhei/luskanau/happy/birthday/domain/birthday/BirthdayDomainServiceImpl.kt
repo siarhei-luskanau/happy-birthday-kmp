@@ -55,6 +55,7 @@ internal class BirthdayDomainServiceImpl : BirthdayDomainService {
                 else -> throw IllegalArgumentException("Incorrect amount of month: $amount")
             }
         )
+
         BirthdayType.YEAR -> if (amount <= 0) {
             throw IllegalArgumentException("Incorrect amount of year: negative value $amount")
         } else if (amount > 200) {

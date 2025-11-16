@@ -70,6 +70,7 @@ class BirthdayViewModel(
             is BirthdayViewEvent.SelectedImage -> viewModelScope.launch {
                 selectedImageFlow.emit(event.image)
             }
+
             is BirthdayViewEvent.SelectedImageFile -> viewModelScope.launch {
                 selectedImageFlow.emit(event.sharedImage.toImageBitmap())
             }
